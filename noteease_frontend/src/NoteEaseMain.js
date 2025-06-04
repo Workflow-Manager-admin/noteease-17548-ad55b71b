@@ -671,6 +671,64 @@ export class NoteEaseMain {
     this._modalState.content = content.innerHTML;
   }
 
+  // Simple modal for alerts
+  _showCustomDialog(message) {
+    if (document.getElementById('ne-dialog')) return;
+    const modal = document.createElement('div');
+    modal.className = 'ne-modal';
+    modal.id = 'ne-dialog';
+    const card = document.createElement('div');
+    card.className = 'ne-modal-card';
+    card.style.minWidth = '240px';
+    card.innerHTML = `
+      <div style="font-size:1.11em; color: var(--ne-primary); margin-bottom:1rem;">${message}</div>
+    `;
+    const closeBtn = document.createElement('button');
+    closeBtn.className = "close-btn";
+    closeBtn.textContent = "OK";
+    closeBtn.onclick = () => {
+      modal.remove();
+    };
+    const actions = document.createElement('div');
+    actions.className = 'ne-modal-actions';
+    actions.appendChild(closeBtn);
+    card.appendChild(actions);
+    modal.appendChild(card);
+    document.body.appendChild(modal);
+  }
+
+  // Simple modal for confirm
+  _showConfirmDialog(message, onYes) {
+    if (document.getElementById('ne-confirm-dialog')) return;
+    const modal = document.createElement('div');
+    modal.className = 'ne-modal';
+    modal.id = 'ne-confirm-dialog';
+    const card = document.createElement('div');
+    card.className = 'ne-modal-card';
+    card.style.minWidth = '240px';
+    card.innerHTML = `
+      <div style="font-size:1.11em; color: var(--ne-primary); margin-bottom:1rem;">${message}</div>
+    `;
+    const actions = document.createElement('div');
+    actions.className = 'ne-modal-actions';
+    const noBtn = document.createElement('button');
+    noBtn.className = "close-btn";
+    noBtn.textContent = "Cancel";
+    noBtn.onclick = () => modal.remove();
+    const yesBtn = document.createElement('button');
+    yesBtn.className = "confirm-btn";
+    yesBtn.textContent = "Delete";
+    yesBtn.onclick = () => {
+      modal.remove();
+      if (typeof onYes === 'function') onYes();
+    };
+    actions.appendChild(noBtn);
+    actions.appendChild(yesBtn);
+    card.appendChild(actions);
+    modal.appendChild(card);
+    document.body.appendChild(modal);
+  }
+
   _stripHtml(html) {
     // Basic conversion to plain text (no tags)
     const div = document.createElement('div');
