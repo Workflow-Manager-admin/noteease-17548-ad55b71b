@@ -523,7 +523,7 @@ export class NoteEaseMain {
       btn.className = 'ne-edit-toolbar-btn';
       btn.innerHTML = tool.icon;
       btn.title = tool.label;
-      btn.onclick = (e) => { e.preventDefault(); this._applyFormat(tool); };
+      btn.onclick = () => { this._applyFormat(tool); };
       toolbar.appendChild(btn);
     });
     card.appendChild(toolbar);
